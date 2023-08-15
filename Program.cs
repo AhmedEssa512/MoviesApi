@@ -46,9 +46,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 
-   builder.Services.AddTransient<IMoviesService,MovieService>();
-   builder.Services.AddTransient<IGenreService,GenreService>();
-   builder.Services.AddTransient<IAuthService,AuthService>();
+   // builder.Services.AddTransient<IMoviesService,MovieService>();
+   // builder.Services.AddTransient<IGenreService,GenreService>();
+   // builder.Services.AddTransient<IAuthService,AuthService>();
 
    builder.Services.AddTransient<IUnitOfWork,UnitOfWork>();
 
