@@ -4,58 +4,35 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.Data;
+using MoviesApi.Generics;
 
 namespace MoviesApi.Services
 {
-    public class MovieService : IMoviesService
+    public class MovieService : GenericBase<Movie>,IMoviesService
     {
-           private readonly ApplicationDbContext _context;
+           private readonly DbSet<Movie> _movie;
 
-        public MovieService(ApplicationDbContext context)
+        public MovieService(ApplicationDbContext context):base(context)
         {
-            _context = context;
+            _movie = context.Set<Movie>();
         }
 
-        public async Task<Movie> Create(Movie movie)
-        {
-            await _context.AddAsync(movie);
-          await  _context.SaveChangesAsync();     
+        
 
-             return movie;
 
-        }
-
-        public async Task<Movie> Delete(Movie movie)
-        {
-             _context.Remove(movie);
-             await _context.SaveChangesAsync();
-
-             return movie;
-        }
 
         public async Task<IEnumerable<Movie>> GetAll(byte genreId = 0)
         {
-             return await _context.Movies.Where(g => g.GenreId == genreId || genreId == 0)
+             return await _movie.Where(g => g.GenreId == genreId || genreId == 0)
                                           .OrderByDescending(g => g.Rate)
                                           .Include(g => g.Genre)
                                           .ToListAsync();
         }
 
-        public async Task<Movie> GetById(int id)
-        {
-            return await _context.Movies.Include(p => p.Genre).SingleOrDefaultAsync(p => p.Id == id);
-        }
-
-        public async Task<Movie> Update(Movie movie)
-        {
-             _context.Movies.Update(movie);
-            await _context.SaveChangesAsync();
-            return movie;
-        }
-
+        
        public async Task<Movie> Search(string movieName)
        {
-           return await _context.Movies.Include(g => g.Genre).SingleOrDefaultAsync(m => m.Title == movieName);
+           return await _movie.Include(g => g.Genre).SingleOrDefaultAsync(m => m.Title == movieName);
 
        }
     }

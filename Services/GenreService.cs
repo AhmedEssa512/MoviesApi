@@ -4,61 +4,33 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MoviesApi.Data;
+using MoviesApi.Generics;
 
 namespace MoviesApi.Services
 {
-    public class GenreService : IGenreService
+    public class GenreService : GenericBase<Genre>, IGenreService
     {
-          private readonly ApplicationDbContext _context;
+          private readonly DbSet<Genre> _genre;
 
-        public GenreService(ApplicationDbContext context)
+        public GenreService(ApplicationDbContext context):base(context)
         {
-            _context = context;
+            _genre = context.Set<Genre>();
         }
 
-
-
-
-
-
-
-
-        public async Task<Genre> Create(Genre genre)
-        {
-            await _context.Genres.AddAsync(genre);
-            await _context.SaveChangesAsync();
-
-            return genre;
-        }
-
-        public async Task<Genre> Delete(Genre genre)
-        {
-            _context.Genres.Remove(genre);
-            await _context.SaveChangesAsync();
-
-            return genre;
-        }
+       
 
         public async Task<IEnumerable<Genre>> GetAll()
         {
-            return   await _context.Genres.OrderBy(g => g.Name).ToListAsync();   
+            return   await _genre.OrderBy(g => g.Name).ToListAsync();   
         }
 
-        public async Task<Genre> GetById(int id)
-        {
-            return await _context.Genres.SingleOrDefaultAsync(g => g.Id == id);
-        }
+
 
         public Task<bool> IsvalidGenre(byte id)
         {
-            return   _context.Genres.AnyAsync(g => g.Id == id);
+            return   _genre.AnyAsync(g => g.Id == id);
         }
 
-        public async Task<Genre> Update(Genre genre)
-        {
-            _context.Genres.Update(genre);
-            await _context.SaveChangesAsync();
-            return genre;
-        }
+        
     }
 }

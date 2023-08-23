@@ -6,6 +6,7 @@ using System.Text;
 using MoviesApi.Data;
 using MoviesApi.Dtos;
 using MoviesApi.Services;
+using MoviesApi.Generics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,7 +46,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 
 
-
+   builder.Services.AddTransient(typeof(IGenericBase<>), typeof(GenericBase<>));
    builder.Services.AddTransient<IMoviesService,MovieService>();
    builder.Services.AddTransient<IGenreService,GenreService>();
    builder.Services.AddTransient<IAuthService,AuthService>();

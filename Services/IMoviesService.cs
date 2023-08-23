@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MoviesApi.Data;
+using MoviesApi.Generics;
 
 namespace MoviesApi.Services
 {
-    public interface IMoviesService
+    public interface IMoviesService : IGenericBase<Movie>
     {
        Task< IEnumerable<Movie>> GetAll(byte genreId = 0);
-        Task<Movie> GetById(int id);
-        Task<Movie> Create(Movie movie);
-        Task<Movie> Update(Movie movie);
-        Task<Movie> Delete(Movie movie);
+
         Task<Movie>Search(string movieName);
 
     }

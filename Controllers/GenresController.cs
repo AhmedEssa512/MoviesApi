@@ -43,7 +43,7 @@ namespace MoviesApi.Controllers
         {
             var genre = new Genre{Name = ob.Name};
         
-             await _MyUnit.genreService.Create(genre);
+             await _MyUnit.genreService.AddAsync(genre);
 
             return Ok(genre);
         }
@@ -52,13 +52,13 @@ namespace MoviesApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateGenre(int id,[FromForm]between ob)
         {
-            var genre = await _MyUnit.genreService.GetById(id);
+            var genre = await _MyUnit.genreService.GetByIdAsync(id);
 
             if(genre == null)
              return NotFound($"Not Found Genres with id {id}");
 
             genre.Name = ob.Name;
-            await _MyUnit.genreService.Update(genre);
+            await _MyUnit.genreService.UpdateAsync(genre);
 
             return Ok(genre);     
 
@@ -69,11 +69,11 @@ namespace MoviesApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGenre(int id)
         {
-           var genre = await _MyUnit.genreService.GetById(id);
+           var genre = await _MyUnit.genreService.GetByIdAsync(id);
            if(genre == null)
             return NotFound($"Not found Gnere with id {id} ");
             
-          await _MyUnit.genreService.Delete(genre);
+          await _MyUnit.genreService.DeleteAsync(genre);
 
            return Ok(genre);  
 

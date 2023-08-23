@@ -53,7 +53,7 @@ namespace MoviesApi.Controllers
           };
       
              
-            await _myunit.moviesService.Create(movie);
+            await _myunit.moviesService.AddAsync(movie);
 
           return Ok(movie);
 
@@ -72,12 +72,12 @@ namespace MoviesApi.Controllers
         public async Task<IActionResult> DeleteMovie(int id)
         {
             
-             var movie = await _myunit.moviesService.GetById(id);
+             var movie = await _myunit.moviesService.GetByIdAsync(id);
 
              if(movie == null) return NotFound("Not found movie with this id");
             
                
-             await _myunit.moviesService.Delete(movie);
+             await _myunit.moviesService.DeleteAsync(movie);
 
              return Ok(movie);
 
@@ -87,7 +87,7 @@ namespace MoviesApi.Controllers
         [HttpPut("{id}")]
          public async Task<IActionResult> UpdateMovie(int id,[FromForm]MoviesDtos dto)
          {
-             var movie = await _myunit.moviesService.GetById(id);
+             var movie = await _myunit.moviesService.GetByIdAsync(id);
 
              if(movie == null) return NotFound("Not found movie with this id");
 
@@ -108,7 +108,7 @@ namespace MoviesApi.Controllers
             
             
 
-            await  _myunit.moviesService.Update(movie);
+            await  _myunit.moviesService.UpdateAsync(movie);
 
 
           return Ok(movie);
